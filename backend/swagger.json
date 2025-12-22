@@ -1,0 +1,316 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CogniGuard API",
+    "version": "1.0.0",
+    "description": "API для системи моніторингу когнітивного стану військових."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api"
+    }
+  ],
+  "tags": [
+    { "name": "Auth", "description": "Автентифікація та безпека" },
+    { "name": "Users", "description": "Управління профілями бійців" },
+    { "name": "Units", "description": "Управління підрозділами" },
+    { "name": "Test Results", "description": "Результати когнітивних тестів" },
+    { "name": "IoT Data", "description": "Телеметрія з браслетів" },
+    { "name": "Reports", "description": "Звіти та аналітика" },
+    { "name": "Admin", "description": "Адміністрування системи" }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Реєстрація нового користувача",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "full_name": { "type": "string", "example": "Петренко Іван" },
+                  "login": { "type": "string", "example": "petrenko" },
+                  "password": { "type": "string", "example": "password123" },
+                  "rank": { "type": "string", "example": "Сержант" },
+                  "role": { "type": "string", "example": "soldier" },
+                  "unit_id": { "type": "string", "example": "ID підрозділу" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Користувача створено" } }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Вхід у систему (отримання токена)",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "login": { "type": "string", "example": "petrenko" },
+                  "password": { "type": "string", "example": "password123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Успішний вхід" } }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "summary": "Отримання даних поточного користувача",
+        "tags": ["Auth"],
+        "responses": { "200": { "description": "Дані профілю" } }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Отримати список всіх бійців",
+        "tags": ["Users"],
+        "responses": { "200": { "description": "Список користувачів" } }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Отримати профіль бійця",
+        "tags": ["Users"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Деталі профілю" } }
+      },
+      "patch": {
+        "summary": "Оновити дані бійця",
+        "tags": ["Users"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "description": "Поля, які потрібно оновити",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "full_name": { "type": "string", "example": "Нове Ім'я" },
+                  "rank": { "type": "string", "example": "Капітан" },
+                  "login": { "type": "string", "example": "new_login" },
+                  "role": { "type": "string", "example": "commander" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Профіль оновлено" } }
+      },
+      "delete": {
+        "summary": "Видалити користувача з системи",
+        "tags": ["Users"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Користувача видалено" } }
+      }
+    },
+    "/units": {
+      "get": {
+        "summary": "Отримати список підрозділів",
+        "tags": ["Units"],
+        "responses": { "200": { "description": "Список підрозділів" } }
+      },
+      "post": {
+        "summary": "Створити новий підрозділ",
+        "tags": ["Units"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "Alpha Squad" },
+                  "location": { "type": "string", "example": "Sector 7" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Підрозділ створено" } }
+      }
+    },
+    "/units/{id}": {
+      "delete": {
+        "summary": "Розформувати (видалити) підрозділ",
+        "tags": ["Units"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Підрозділ видалено" } }
+      }
+    },
+    "/units/{id}/members": {
+      "get": {
+        "summary": "Отримати список бійців підрозділу",
+        "tags": ["Units"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Особовий склад" } }
+      }
+    },
+    "/tests": {
+      "post": {
+        "summary": "Зберегти результат тесту (і розрахувати втому)",
+        "tags": ["Test Results"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_id": { "type": "string", "example": "656565656565656565656565" },
+                  "test_type": { "type": "string", "example": "PVT" },
+                  "reaction_time_ms": { "type": "integer", "example": 600 },
+                  "errors_count": { "type": "integer", "example": 2 }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Результат збережено" } }
+      }
+    },
+    "/tests/{id}": {
+      "delete": {
+        "summary": "Видалити помилковий результат тесту",
+        "tags": ["Test Results"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Запис видалено" } }
+      }
+    },
+    "/tests/history": {
+      "get": {
+        "summary": "Отримати історію тестів",
+        "tags": ["Test Results"],
+        "responses": { "200": { "description": "Історія результатів" } }
+      }
+    },
+    "/tests/stats/{unitId}": {
+      "get": {
+        "summary": "Отримати статистику по підрозділу",
+        "tags": ["Test Results"],
+        "parameters": [
+          {
+            "name": "unitId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID підрозділу"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Статистика отримана" },
+          "500": { "description": "Помилка сервера" }
+        }
+      }
+    },
+    "/iot/data": {
+      "post": {
+        "summary": "Прийом даних телеметрії",
+        "tags": ["IoT Data"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_id": { "type": "string", "example": "656565656565656565656565" },
+                  "pulse_rate": { "type": "integer", "example": 85 },
+                  "stress_level": { "type": "integer", "example": 40 }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Дані отримано" } }
+      }
+    },
+    "/iot/latest/{userId}": {
+      "get": {
+        "summary": "Останні показники бійця",
+        "tags": ["IoT Data"],
+        "parameters": [
+          { "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Останні дані" } }
+      }
+    },
+    "/reports/generate": {
+      "post": {
+        "summary": "Генерація PDF-звіту",
+        "tags": ["Reports"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "unit_id": { "type": "string", "example": "656565656565656565656565" },
+                  "summary_text": { "type": "string", "example": "Weekly Report" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Звіт згенеровано" } }
+      }
+    },
+    "/reports": {
+      "get": {
+        "summary": "Список доступних звітів",
+        "tags": ["Reports"],
+        "responses": { "200": { "description": "Список файлів" } }
+      }
+    },
+    "/reports/{id}": {
+      "delete": {
+        "summary": "Видалити старий звіт",
+        "tags": ["Reports"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Звіт видалено" } }
+      }
+    },
+    "/admin/backup": {
+      "post": {
+        "summary": "Створити резервну копію БД",
+        "tags": ["Admin"],
+        "responses": { "200": { "description": "Backup created" } }
+      }
+    },
+    "/admin/export": {
+      "get": {
+        "summary": "Експорт даних (JSON)",
+        "tags": ["Admin"],
+        "responses": { "200": { "description": "Файл експорту" } }
+      }
+    }
+  }
+}
