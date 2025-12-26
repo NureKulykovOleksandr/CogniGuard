@@ -4,7 +4,6 @@ import IoTData from "../models/IoTData.js";
 import fs from "fs";
 import path from "path";
 
-// --- ФУНКЦІЇ АДМІНІСТРУВАННЯ ---
 
 // Експорт всієї бази даних у JSON
 export const exportData = async (req, res) => {

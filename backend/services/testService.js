@@ -3,7 +3,7 @@ import User from "../models/User.js";
 import Alert from "../models/Alert.js";
 
 class TestService {
-    // Логіка визначення статусу (перенесена з контролера)
+    // Логіка визначення статусу
     calculateStatus(reactionTime, errors) {
         if (reactionTime > 500 || errors > 3) return "critical";
         if (reactionTime > 350 || errors > 1) return "fatigue";

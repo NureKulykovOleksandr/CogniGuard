@@ -1,0 +1,121 @@
+{
+  "users": [
+    {
+      "_id": "694845ddf2b52e5ed04eaccd",
+      "full_name": "Петренко Іван",
+      "login": "petrenko",
+      "password_hash": "password123",
+      "rank": "Сержант",
+      "role": "soldier",
+      "created_at": "2025-12-21T19:09:17.245Z",
+      "updated_at": "2025-12-21T19:09:17.245Z",
+      "__v": 0
+    },
+    {
+      "_id": "69484ee6bcd56ec5eeccebc7",
+      "full_name": "Симоненко Іван",
+      "login": "simonenko",
+      "password_hash": "password1234",
+      "rank": "Капітан",
+      "role": "semonenko1",
+      "created_at": "2025-12-21T19:47:50.448Z",
+      "updated_at": "2025-12-21T20:20:18.494Z",
+      "__v": 0,
+      "unit_id": "69485029bcd56ec5eeccebcd"
+    },
+    {
+      "_id": "6949732beaf0db03e43439e9",
+      "full_name": "Петренко Віталій",
+      "login": "petrenko123",
+      "password_hash": "password12345",
+      "rank": "Рядовий",
+      "role": "soldier",
+      "unit_id": "69485029bcd56ec5eeccebcd",
+      "created_at": "2025-12-22T16:34:51.742Z",
+      "updated_at": "2025-12-22T16:35:59.837Z",
+      "__v": 0
+    }
+  ],
+  "tests": [
+    {
+      "_id": "69483906a54a9dadba77eed0",
+      "user_id": "656565656565656565656565",
+      "test_type": "PVT",
+      "reaction_time_ms": 600,
+      "errors_count": 2,
+      "status": "critical",
+      "timestamp": "2025-12-21T18:14:30.451Z",
+      "__v": 0
+    },
+    {
+      "_id": "694854bb8273952313a1106f",
+      "user_id": "69484ee6bcd56ec5eeccebc7",
+      "test_type": "PVT",
+      "reaction_time_ms": 600,
+      "errors_count": 3,
+      "status": "critical",
+      "timestamp": "2025-12-21T20:12:43.153Z",
+      "__v": 0
+    },
+    {
+      "_id": "694854ef8273952313a11071",
+      "user_id": "69484ee6bcd56ec5eeccebc7",
+      "test_type": "PVT",
+      "reaction_time_ms": 400,
+      "errors_count": 2,
+      "status": "fatigue",
+      "timestamp": "2025-12-21T20:13:35.639Z",
+      "__v": 0
+    },
+    {
+      "_id": "69485affc34bcdccde63aa15",
+      "user_id": "69484ee6bcd56ec5eeccebc7",
+      "test_type": "PVT",
+      "reaction_time_ms": 200,
+      "errors_count": 0,
+      "status": "normal",
+      "timestamp": "2025-12-21T20:39:27.216Z",
+      "__v": 0
+    },
+    {
+      "_id": "69485b29c34bcdccde63aa17",
+      "user_id": "69484ee6bcd56ec5eeccebc7",
+      "test_type": "PVT",
+      "reaction_time_ms": 600,
+      "errors_count": 3,
+      "status": "critical",
+      "timestamp": "2025-12-21T20:40:09.841Z",
+      "__v": 0
+    },
+    {
+      "_id": "69485b5ec34bcdccde63aa19",
+      "user_id": "69484ee6bcd56ec5eeccebc7",
+      "test_type": "PVT",
+      "reaction_time_ms": 800,
+      "errors_count": 5,
+      "status": "critical",
+      "timestamp": "2025-12-21T20:41:02.574Z",
+      "__v": 0
+    },
+    {
+      "_id": "69485be976413601e54abd89",
+      "user_id": "69484ee6bcd56ec5eeccebc7",
+      "test_type": "PVT",
+      "reaction_time_ms": 800,
+      "errors_count": 5,
+      "status": "critical",
+      "timestamp": "2025-12-21T20:43:21.064Z",
+      "__v": 0
+    },
+    {
+      "_id": "69497443eaf0db03e43439f1",
+      "user_id": "6949732beaf0db03e43439e9",
+      "test_type": "PVT",
+      "reaction_time_ms": 600,
+      "errors_count": 5,
+      "status": "critical",
+      "timestamp": "2025-12-22T16:39:31.856Z",
+      "__v": 0
+    }
+  ]
+}
