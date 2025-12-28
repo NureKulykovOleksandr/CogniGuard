@@ -16,13 +16,27 @@ import * as UserController from "./controllers/userController.js";
 
 dotenv.config();
 
-const swaggerDocument = JSON.parse(fs.readFileSync('./swagger.json', 'utf-8'));
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// !!! ВАЖЛИВО: CORS має бути першим
 app.use(cors());
 app.use(express.json());
+
+// --- SWAGGER SETUP (FIX FOR RENDER) ---
+const swaggerDocument = JSON.parse(fs.readFileSync('./swagger.json', 'utf-8'));
+
+// Додаємо сервери програмно, щоб Swagger точно знав, де він працює
+swaggerDocument.servers = [
+    {
+        url: "https://cogniguard-6y7v.onrender.com", // Твоє посилання на Render
+        description: "Production Server (Render)"
+    },
+    {
+        url: `http://localhost:${PORT}`,
+        description: "Localhost"
+    }
+];
 
 // Підключення до БД
 mongoose
@@ -30,7 +44,15 @@ mongoose
   .then(() => console.log('✅ Connected to MongoDB Atlas'))
   .catch((err) => console.error('❌ DB connection error:', err));
 
-// Swagger
+// Головна сторінка (щоб не було Cannot GET /)
+app.get('/', (req, res) => {
+    res.send(`
+        <h1>CogniGuard API is running! 🚀</h1>
+        <p>Go to <a href="/api-docs">/api-docs</a> to see the documentation.</p>
+    `);
+});
+
+// Swagger Route
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // --- МАРШРУТИ ---
@@ -72,6 +94,5 @@ app.delete('/api/users/:id', UserController.deleteUser);
 
 // Запуск
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📄 Swagger Docs at http://localhost:${PORT}/api-docs`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });

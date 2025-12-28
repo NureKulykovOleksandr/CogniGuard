@@ -8,6 +8,10 @@
   "servers": [
     {
       "url": "http://localhost:3000/api"
+    },
+    {
+      "url": "https://cogniguard-6y7v.onrender.com/api-docs",
+       "description": "Production server"
     }
   ],
   "tags": [
