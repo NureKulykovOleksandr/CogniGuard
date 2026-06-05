@@ -30,7 +30,8 @@ export const getUnitStats = async (req, res) => {
 // Історія
 export const getHistory = async (req, res) => {
     try {
-        const tests = await TestResult.find().sort({ timestamp: -1 });
+        const filter = req.query.user_id ? { user_id: req.query.user_id } : {};
+        const tests = await TestResult.find(filter).sort({ timestamp: -1 });
         res.json(tests);
     } catch (error) {
         res.status(500).json({ message: "Error fetching history", error });

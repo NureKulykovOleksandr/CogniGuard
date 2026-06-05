@@ -44,3 +44,16 @@ export const getUnitMembers = async (req, res) => {
         res.status(500).json({ message: "Помилка пошуку бійців", error });
     }
 };
+
+export const updateUnit = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedUnit = await Unit.findByIdAndUpdate(id, req.body, { new: true });
+        if (!updatedUnit) {
+            return res.status(404).json({ message: "Підрозділ не знайдено" });
+        }
+        res.json(updatedUnit);
+    } catch (error) {
+        res.status(500).json({ message: "Помилка оновлення підрозділу", error });
+    }
+};

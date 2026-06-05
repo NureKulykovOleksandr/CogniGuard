@@ -4,7 +4,13 @@ import Alert from "../models/Alert.js";
 
 class TestService {
     // Логіка визначення статусу
-    calculateStatus(reactionTime, errors) {
+    calculateStatus(testType, reactionTime, errors) {
+        if (testType === 'n-back') {
+            if (reactionTime > 1500 || errors > 5) return "critical";
+            if (reactionTime > 1000 || errors > 2) return "fatigue";
+            return "normal";
+        }
+        // Логіка для PVT та інших
         if (reactionTime > 500 || errors > 3) return "critical";
         if (reactionTime > 350 || errors > 1) return "fatigue";
         return "normal";
@@ -15,7 +21,7 @@ class TestService {
         const { user_id, test_type, reaction_time_ms, errors_count } = data;
         
         // Рахуємо статус
-        const status = this.calculateStatus(reaction_time_ms, errors_count);
+        const status = this.calculateStatus(test_type, reaction_time_ms, errors_count);
 
         // Зберігаємо тест
         const newTest = new TestResult({

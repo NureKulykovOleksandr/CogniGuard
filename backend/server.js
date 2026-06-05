@@ -29,14 +29,19 @@ const swaggerDocument = JSON.parse(fs.readFileSync('./swagger.json', 'utf-8'));
 // Додаємо сервери програмно, щоб Swagger точно знав, де він працює
 swaggerDocument.servers = [
     {
-        url: "https://cogniguard-6y7v.onrender.com", // Твоє посилання на Render
+        url: "https://cogniguard-6y7v.onrender.com/api", // Твоє посилання на Render
         description: "Production Server (Render)"
     },
     {
-        url: `http://localhost:${PORT}`,
+        url: `http://localhost:${PORT}/api`,
         description: "Localhost"
     }
 ];
+
+// Важливо: Переконайтеся, що шляхи до ендпоінтів у swagger.json (наприклад, "/api/auth/login")
+// відповідають фактичним маршрутам, визначеним в Express (наприклад, app.post('/api/auth/login', ...)).
+// Якщо вони не збігаються, Swagger UI буде генерувати 404 помилки.
+// console.log(JSON.stringify(swaggerDocument, null, 2)); // Розкоментуйте для налагодження
 
 // Підключення до БД
 mongoose
@@ -64,6 +69,7 @@ app.get('/api/auth/me', AuthController.getMe);
 // Units
 app.post('/api/units', UnitController.createUnit);
 app.get('/api/units', UnitController.getUnits);
+app.patch('/api/units/:id', UnitController.updateUnit);
 app.delete('/api/units/:id', UnitController.deleteUnit);
 app.get('/api/units/:id/members', UnitController.getUnitMembers);
 
@@ -85,6 +91,7 @@ app.delete('/api/reports/:id', ReportController.deleteReport);
 // Admin
 app.post('/api/admin/backup', AdminController.createBackup);
 app.get('/api/admin/export', AdminController.exportData);
+app.post('/api/admin/import', AdminController.importData);
 
 // Users Management (Admin)
 app.get('/api/users', UserController.getAllUsers);

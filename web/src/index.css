@@ -1,0 +1,288 @@
+/* Core Styling and Premium Monochrome Minimalist Theme for CogniGuard Web Panel */
+:root {
+  /* Premium Monochrome White Minimalist Theme (Tactical Military Console style) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc; /* very light slate gray */
+  --card-bg: #ffffff;
+  --card-border: #cbd5e1; /* light slate gray border */
+  --card-glow: transparent;
+  
+  --accent-color: #0f172a; /* Slate 900 (Solid Dark Slate for text/buttons) */
+  --accent-color-hover: #334155; /* Slate 700 */
+  --accent-glow: rgba(15, 23, 42, 0.1);
+  
+  --status-normal: #166534; /* Flat Dark Green for high contrast */
+  --status-fatigue: #9a3412; /* Flat Dark Orange */
+  --status-critical: #991b1b; /* Flat Dark Red */
+  
+  --text-primary: #0f172a; /* Slate 900 */
+  --text-secondary: #475569; /* Slate 600 */
+  --text-muted: #64748b; /* Slate 500 */
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+  
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Base Headings */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 0;
+  color: var(--text-primary);
+}
+
+/* Minimalist Flat Card Style */
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+.glass-card:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Premium Navigation Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: #ffffff;
+  border-bottom: 2px solid var(--accent-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--accent-color);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 800;
+  font-family: var(--font-heading);
+}
+.logo-text {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent-color);
+  font-family: var(--font-heading);
+}
+
+/* Form inputs & Buttons */
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: all 0.2s;
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.btn-primary {
+  background: var(--accent-color);
+  color: #ffffff;
+  border: 1px solid var(--accent-color);
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.btn-primary:hover {
+  background: var(--accent-color-hover);
+  border-color: var(--accent-color-hover);
+}
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: var(--text-primary);
+  border: 1px solid #cbd5e1;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-secondary:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: #ffffff;
+  border: 1px solid #dc2626;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-danger:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+/* Status Indicator Dot/Badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.status-badge.normal {
+  background: #f0fdf4;
+  color: var(--status-normal);
+  border: 1px solid #bbf7d0;
+}
+.status-badge.fatigue {
+  background: #fffbeb;
+  color: var(--status-fatigue);
+  border: 1px solid #fde68a;
+}
+.status-badge.critical {
+  background: #fef2f2;
+  color: var(--status-critical);
+  border: 1px solid #fecaca;
+}
+
+/* Layout Grid & Structures */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 32px;
+}
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  padding: 0 32px 24px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+  .stats-row {
+    grid-template-columns: 1fr;
+    padding: 0 16px 16px;
+  }
+}
+
+/* Table Style for Admin Panel */
+.admin-table-container {
+  overflow-x: auto;
+  border-radius: 4px;
+  border: 1px solid var(--card-border);
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+.admin-table th {
+  background: #f1f5f9;
+  padding: 16px;
+  color: var(--text-secondary);
+  font-family: var(--font-heading);
+  border-bottom: 2px solid var(--card-border);
+  font-weight: 700;
+}
+.admin-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--card-border);
+  color: var(--text-primary);
+  background: #ffffff;
+}
+.admin-table tr:hover td {
+  background: #f8fafc;
+}
+
+/* RTL support variables and overrides */
+[dir="rtl"] {
+  text-align: right;
+}
+[dir="rtl"] .admin-table {
+  text-align: right;
+}
+[dir="rtl"] .form-input {
+  text-align: right;
+}

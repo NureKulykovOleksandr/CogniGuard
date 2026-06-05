@@ -66,3 +66,29 @@ export const createBackup = async (req, res) => {
         res.status(500).json({ message: "Backup failed", error });
     }
 };
+
+// Імпорт бази даних (Restore) з JSON
+export const importData = async (req, res) => {
+    try {
+        const { users, tests, iotData } = req.body;
+        
+        if (users && Array.isArray(users)) {
+            await User.deleteMany({});
+            await User.insertMany(users);
+        }
+        
+        if (tests && Array.isArray(tests)) {
+            await TestResult.deleteMany({});
+            await TestResult.insertMany(tests);
+        }
+        
+        if (iotData && Array.isArray(iotData)) {
+            await IoTData.deleteMany({});
+            await IoTData.insertMany(iotData);
+        }
+        
+        res.json({ message: "Database imported successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Import failed", error });
+    }
+};
