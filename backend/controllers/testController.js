@@ -1,7 +1,6 @@
-import TestResult from "../models/TestResult.js"; // Цей імпорт залишаємо для deleteTest та getHistory
+import TestResult from "../models/TestResult.js"; 
 import TestService from "../services/testService.js"; 
 
-// Збереження тесту
 export const saveTestResult = async (req, res) => {
     try {
         const result = await TestService.saveTestResult(req.body);
@@ -16,7 +15,6 @@ export const saveTestResult = async (req, res) => {
     }
 };
 
-// Статистика по підрозділу
 export const getUnitStats = async (req, res) => {
     try {
         const { unitId } = req.params;
@@ -27,7 +25,6 @@ export const getUnitStats = async (req, res) => {
     }
 };
 
-// Історія
 export const getHistory = async (req, res) => {
     try {
         const filter = req.query.user_id ? { user_id: req.query.user_id } : {};
@@ -38,7 +35,6 @@ export const getHistory = async (req, res) => {
     }
 };
 
-// Видалення тесту
 export const deleteTest = async (req, res) => {
     try {
         await TestResult.findByIdAndDelete(req.params.id);

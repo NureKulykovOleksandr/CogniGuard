@@ -23,7 +23,7 @@ export default function ProfileScreen({ token, onBack }) {
       if (response.ok) {
         const data = await response.json();
         setProfile(data);
-        await AsyncStorage.setItem('@auth_user', JSON.stringify(data)); // Оновлюємо кеш
+        await AsyncStorage.setItem('@auth_user', JSON.stringify(data)); 
       } else {
         throw new Error('Network error');
       }

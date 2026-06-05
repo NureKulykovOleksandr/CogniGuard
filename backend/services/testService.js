@@ -3,27 +3,27 @@ import User from "../models/User.js";
 import Alert from "../models/Alert.js";
 
 class TestService {
-    // Логіка визначення статусу
+    
     calculateStatus(testType, reactionTime, errors) {
         if (testType === 'n-back') {
             if (reactionTime > 1500 || errors > 5) return "critical";
             if (reactionTime > 1000 || errors > 2) return "fatigue";
             return "normal";
         }
-        // Логіка для PVT та інших
+        
         if (reactionTime > 500 || errors > 3) return "critical";
         if (reactionTime > 350 || errors > 1) return "fatigue";
         return "normal";
     }
     
-    // Збереження з перевіркою на Alert
+    
     async saveTestResult(data) {
         const { user_id, test_type, reaction_time_ms, errors_count } = data;
         
-        // Рахуємо статус
+        
         const status = this.calculateStatus(test_type, reaction_time_ms, errors_count);
 
-        // Зберігаємо тест
+        
         const newTest = new TestResult({
             user_id,
             test_type,
@@ -33,7 +33,7 @@ class TestService {
         });
         await newTest.save();
 
-        // Якщо статус критичний - створюємо Alert
+        
         if (status === "critical") {
             const newAlert = new Alert({
                 user_id,
@@ -46,13 +46,13 @@ class TestService {
         return { newTest, status };
     }
 
-    // Аналітика по підрозділу
+    
     async getUnitStatistics(unitId) {
-        // Знаходимо всіх бійців підрозділу
+        
         const soldiers = await User.find({ unit_id: unitId }).select('_id');
         const soldierIds = soldiers.map(s => s._id);
 
-        // Агрегація даних за останні 7 днів
+        
         const stats = await TestResult.aggregate([
             { $match: { user_id: { $in: soldierIds } } },
             {

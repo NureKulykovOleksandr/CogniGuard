@@ -2,10 +2,10 @@ import User from "../models/User.js";
 
 export const register = async (req, res) => {
     try {
-        // Розбираємо вхідні дані (Destructuring)
+        
         const { full_name, login, password, rank, role } = req.body;
 
-        //Створюємо юзера
+        
         const newUser = new User({
             full_name,
             login,

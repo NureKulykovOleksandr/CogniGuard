@@ -3,12 +3,12 @@ import { StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function TestScreen({ token, onBack }) {
-  const [gameState, setGameState] = useState('waiting'); // waiting, active, clicked
+  const [gameState, setGameState] = useState('waiting'); 
   const [startTime, setStartTime] = useState(0);
   const [errorsCount, setErrorsCount] = useState(0);
 
   useEffect(() => {
-    // Случайный таймер от 2 до 5 секунд перед сигналом
+    
     const delay = Math.random() * 3000 + 2000;
     const timer = setTimeout(() => {
       setGameState('active');
@@ -27,7 +27,7 @@ export default function TestScreen({ token, onBack }) {
       const reactionTime = Date.now() - startTime;
       setGameState('clicked');
 
-      // Отправляем результат на бэкенд
+      
       const testData = {
         user_id: token,
         test_type: 'PVT',

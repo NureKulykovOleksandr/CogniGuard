@@ -7,7 +7,6 @@ import NBackTestScreen from './NBackTestScreen';
 import HistoryScreen from './HistoryScreen';
 import ProfileScreen from './ProfileScreen';
 
-
 export default function App() {
   const [token, setToken] = useState(null);
   const [isTesting, setIsTesting] = useState(false);
@@ -139,7 +138,6 @@ export default function App() {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },

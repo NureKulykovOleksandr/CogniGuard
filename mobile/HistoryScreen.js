@@ -11,7 +11,7 @@ export default function HistoryScreen({ token, onBack }) {
 
   const fetchHistory = async () => {
     try {
-      // Використовуємо localhost для підключення до локального бекенду.
+      
       const response = await fetch(`http://localhost:3000/api/tests/history?user_id=${token}`);
       const data = await response.json();
       setHistory(data);
@@ -24,10 +24,10 @@ export default function HistoryScreen({ token, onBack }) {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'normal': return '#4CD964'; // Зелений
-      case 'fatigue': return '#FFCC00'; // Жовтий
-      case 'critical': return '#FF3B30'; // Червоний
-      default: return '#8E8E93'; // Сірий
+      case 'normal': return '#4CD964'; 
+      case 'fatigue': return '#FFCC00'; 
+      case 'critical': return '#FF3B30'; 
+      default: return '#8E8E93'; 
     }
   };
 

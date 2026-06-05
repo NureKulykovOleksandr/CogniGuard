@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-// Dictionary of translations for Ukrainian and English
 const T = {
   ua: {
     title: "CogniGuard — Панель Моніторингу",
@@ -180,7 +179,7 @@ export default function App() {
   const [token, setToken] = useState(localStorage.getItem('@web_token') || null);
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('@web_user')) || null);
   
-  // Customization & Localization state
+  
   const [language, setLanguage] = useState(localStorage.getItem('@pref_lang') || 'ua');
   const [rtl, setRtl] = useState(localStorage.getItem('@pref_rtl') === 'true');
   const [dateFormat, setDateFormat] = useState(localStorage.getItem('@pref_date') || 'ua');
@@ -190,21 +189,21 @@ export default function App() {
   const [loginForm, setLoginForm] = useState({ login: '', password: '' });
   const [loginError, setLoginError] = useState('');
   
-  // Data state
+  
   const [users, setUsers] = useState([]);
   const [units, setUnits] = useState([]);
   const [tests, setTests] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   
-  // Dashboard Unit filter
+  
   const [selectedUnitFilter, setSelectedUnitFilter] = useState('');
 
-  // Detailed view of a soldier
+  
   const [selectedSoldier, setSelectedSoldier] = useState(null);
 
-  // User Edit Modal state
+  
   const [showUserModal, setShowUserModal] = useState(false);
-  const [modalMode, setModalMode] = useState('create'); // create or edit
+  const [modalMode, setModalMode] = useState('create'); 
   const [modalForm, setModalForm] = useState({
     id: '',
     full_name: '',
@@ -215,9 +214,9 @@ export default function App() {
     unit_id: ''
   });
 
-  // Unit CRUD Modal state
+  
   const [showUnitModal, setShowUnitModal] = useState(false);
-  const [modalUnitMode, setModalUnitMode] = useState('create'); // create or edit
+  const [modalUnitMode, setModalUnitMode] = useState('create'); 
   const [modalUnitForm, setModalUnitForm] = useState({
     id: '',
     name: '',
@@ -226,7 +225,7 @@ export default function App() {
 
   const t = T[language];
 
-  // Persist settings
+  
   useEffect(() => {
     localStorage.setItem('@pref_lang', language);
   }, [language]);
@@ -243,18 +242,18 @@ export default function App() {
     localStorage.setItem('@pref_sort', sortingType);
   }, [sortingType]);
 
-  // Load backend data if logged in
+  
   useEffect(() => {
     if (token) {
       loadData();
     }
   }, [token]);
 
-  // Handle role constraints upon login or load
+  
   useEffect(() => {
     if (currentUser) {
       if (['commander', 'soldier'].includes(currentUser.role)) {
-        // Enforce the unit filter to be their assigned unit ONLY
+        
         setSelectedUnitFilter(currentUser.unit_id || 'no_unit_assigned');
       } else {
         setSelectedUnitFilter('');
@@ -264,7 +263,7 @@ export default function App() {
 
   const loadData = async () => {
     try {
-      // Fetch users
+      
       const usersRes = await fetch(`${API_URL}/users`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -273,7 +272,7 @@ export default function App() {
         setUsers(usersData);
       }
       
-      // Fetch units
+      
       const unitsRes = await fetch(`${API_URL}/units`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -282,7 +281,7 @@ export default function App() {
         setUnits(unitsData);
       }
       
-      // Fetch tests
+      
       const testsRes = await fetch(`${API_URL}/tests/history`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -327,7 +326,7 @@ export default function App() {
     localStorage.removeItem('@web_user');
   };
 
-  // User CRUD functions
+  
   const handleSaveUser = async (e) => {
     e.preventDefault();
     try {
@@ -422,7 +421,7 @@ export default function App() {
     setShowUserModal(true);
   };
 
-  // Unit CRUD functions
+  
   const handleSaveUnit = async (e) => {
     e.preventDefault();
     try {
@@ -499,7 +498,7 @@ export default function App() {
     setShowUnitModal(true);
   };
 
-  // Backup & Import/Export
+  
   const triggerBackup = async () => {
     try {
       const res = await fetch(`${API_URL}/admin/backup`, {
@@ -551,7 +550,7 @@ export default function App() {
     reader.readAsText(file);
   };
 
-  // i18n Date formatting
+  
   const formatDateTime = (isoString) => {
     if (!isoString) return "";
     const date = new Date(isoString);
@@ -575,7 +574,7 @@ export default function App() {
     }
   };
 
-  // Locale-aware sorting of users
+  
   const getSortedUsers = () => {
     const filtered = users.filter(u => 
       u.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -594,14 +593,14 @@ export default function App() {
     }
   };
 
-  // Helpers to resolve human readable unit names
+  
   const getUnitName = (unitId) => {
     if (!unitId) return t.noUnit;
     const found = units.find(u => u._id === unitId);
     return found ? found.name : unitId;
   };
 
-  // Single soldier detailed statistics
+  
   const getSoldierStats = (soldier) => {
     const soldierTests = tests.filter(t => t.user_id === soldier.login || t.user_id === soldier._id);
     const total = soldierTests.length;
@@ -616,7 +615,7 @@ export default function App() {
     return { total, avg, errors, critical, fatigue, currentStatus, history: soldierTests };
   };
 
-  // Filtered lists for Dashboard tab (using selectedUnitFilter)
+  
   const getFilteredDashboardData = () => {
     const filteredUsers = selectedUnitFilter
       ? users.filter(u => u.unit_id === selectedUnitFilter)
@@ -648,7 +647,7 @@ export default function App() {
 
   const dashboardData = getFilteredDashboardData();
 
-  // Login component
+  
   if (!token) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -687,7 +686,7 @@ export default function App() {
 
   return (
     <div dir={rtl ? 'rtl' : 'ltr'}>
-      {/* Header */}
+      {}
       <header className="app-header">
         <div className="app-logo">
           <div className="logo-icon">CG</div>
@@ -707,7 +706,7 @@ export default function App() {
             {t.dashboard}
           </button>
           
-          {/* Admin panel only for admin role (restricting commander & medic from system backups and DB imports/exports) */}
+          {}
           {currentUser.role === 'admin' && (
             <button 
               id="nav-admin"
@@ -740,10 +739,10 @@ export default function App() {
         </nav>
       </header>
 
-      {/* Main Content */}
+      {}
       <main style={{ paddingBottom: '60px' }}>
         
-        {/* Dashboard Tab */}
+        {}
         {activeTab === 'dashboard' && !selectedSoldier && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '32px 32px 0', flexWrap: 'wrap', gap: '16px' }}>
@@ -751,7 +750,7 @@ export default function App() {
                 {t.dashboard}
               </h2>
 
-              {/* Dropdown filter visible ONLY for Admin/Medic (Commanders are locked to their own unit) */}
+              {}
               {['admin', 'medic'].includes(currentUser.role) ? (
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                   <span style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Фільтр підрозділу:</span>
@@ -769,7 +768,7 @@ export default function App() {
                   </select>
                 </div>
               ) : (
-                /* Text indicator for commander showing their specific unit context */
+                
                 <div style={{ background: 'var(--accent-glow)', padding: '8px 16px', borderRadius: '8px', border: '1px solid var(--accent-color)' }}>
                   <span style={{ fontSize: '14px', fontWeight: '600' }}>
                     {t.unit}: <span style={{ color: 'var(--text-primary)' }}>{getUnitName(currentUser.unit_id)}</span>
@@ -778,7 +777,7 @@ export default function App() {
               )}
             </div>
             
-            {/* Stats row */}
+            {}
             <div className="stats-row" style={{ marginTop: '24px' }}>
               <div className="glass-card" style={{ padding: '20px', textAlign: 'left' }}>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '14px', margin: 0 }}>{t.totalSoldiers}</p>
@@ -798,10 +797,10 @@ export default function App() {
               </div>
             </div>
 
-            {/* Dashboard Grid */}
+            {}
             <div className="dashboard-grid" style={{ paddingTop: 0 }}>
               
-              {/* Soldier Readiness List */}
+              {}
               <div className="glass-card" style={{ padding: '24px', gridColumn: 'span 2' }}>
                 <h3 style={{ fontSize: '20px', marginBottom: '20px', textAlign: 'left' }}>{t.readinessTitle}</h3>
                 <div className="admin-table-container">
@@ -849,10 +848,10 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Right Column (dynamic unit trends & alerts) */}
+              {}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 
-                {/* SVG Trend Graph (filtered dynamically by unit) */}
+                {}
                 <div className="glass-card" style={{ padding: '24px', textAlign: 'left' }}>
                   <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>
                     {selectedUnitFilter ? t.unitTrend : t.reactionTrend}
@@ -915,7 +914,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Alerts feed */}
+                {}
                 <div className="glass-card" style={{ padding: '24px', flex: 1, textAlign: 'left' }}>
                   <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>{t.alertFeed}</h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxHeight: '250px', overflowY: 'auto' }}>
@@ -946,7 +945,7 @@ export default function App() {
           </div>
         )}
 
-        {/* Detailed Soldier View */}
+        {}
         {activeTab === 'dashboard' && selectedSoldier && (() => {
           const statsDetails = getSoldierStats(selectedSoldier);
           const maxPoints = 5;
@@ -981,7 +980,7 @@ export default function App() {
               
               <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px', textAlign: 'left' }}>
                 
-                {/* Left block: Details & stats */}
+                {}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   <div className="glass-card" style={{ padding: '24px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -1009,7 +1008,7 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* History table */}
+                  {}
                   <div className="glass-card" style={{ padding: '24px' }}>
                     <h3 style={{ fontSize: '20px', marginBottom: '16px' }}>{t.totalTests} ({statsDetails.total})</h3>
                     {statsDetails.total > 0 ? (
@@ -1049,10 +1048,10 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Right block: Personal SVG trend & counters */}
+                {}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   
-                  {/* Detailed metrics box */}
+                  {}
                   <div className="glass-card" style={{ padding: '24px' }}>
                     <h3 style={{ fontSize: '18px', marginBottom: '20px' }}>Метрики бійця</h3>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -1075,7 +1074,7 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Personal SVG Chart */}
+                  {}
                   {statsDetails.total > 1 && (
                     <div className="glass-card" style={{ padding: '24px' }}>
                       <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>{t.personalTrend}</h3>
@@ -1107,7 +1106,7 @@ export default function App() {
           );
         })()}
 
-        {/* Admin Tab */}
+        {}
         {activeTab === 'admin' && currentUser?.role === 'admin' && (
           <div style={{ padding: '32px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
@@ -1115,7 +1114,7 @@ export default function App() {
               <button id="admin-add-user-btn" className="btn-primary" onClick={openCreateModal}>+ {t.addUser}</button>
             </div>
 
-            {/* User Search & Sort Bar */}
+            {}
             <div className="glass-card" style={{ padding: '16px', display: 'flex', gap: '16px', marginBottom: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
               <input 
                 id="admin-search-input"
@@ -1141,7 +1140,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Users table */}
+            {}
             <div className="glass-card" style={{ padding: '24px', marginBottom: '40px' }}>
               <div className="admin-table-container">
                 <table className="admin-table">
@@ -1178,7 +1177,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Unit Management (CRUD) */}
+            {}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
               <h2 style={{ fontSize: '32px', margin: 0 }}>{t.unitManagement}</h2>
               <button id="admin-add-unit-btn" className="btn-primary" onClick={openCreateUnitModal}>+ {t.addUnit}</button>
@@ -1217,7 +1216,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Backups / Exports / Imports */}
+            {}
             <h2 style={{ fontSize: '24px', marginBottom: '16px', textAlign: 'left' }}>{t.sysAdmin}</h2>
             <div className="glass-card" style={{ padding: '24px', display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
               <button id="admin-backup-btn" className="btn-primary" onClick={triggerBackup}>{t.createBackup}</button>
@@ -1238,7 +1237,7 @@ export default function App() {
           </div>
         )}
 
-        {/* Profile Tab */}
+        {}
         {activeTab === 'profile' && (
           <div style={{ padding: '32px', display: 'flex', justifyContent: 'center' }}>
             <div className="glass-card" style={{ width: '600px', padding: '40px', textAlign: 'left' }}>
@@ -1316,7 +1315,7 @@ export default function App() {
 
       </main>
 
-      {/* Edit User Modal Dialog Overlay */}
+      {}
       {showUserModal && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
           <div className="glass-card" style={{ width: '450px', padding: '32px', textAlign: 'left' }}>
@@ -1413,7 +1412,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Edit Unit Modal Dialog Overlay */}
+      {}
       {showUnitModal && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
           <div className="glass-card" style={{ width: '400px', padding: '32px', textAlign: 'left' }}>

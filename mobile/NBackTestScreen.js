@@ -23,7 +23,7 @@ const generateSequence = (n, total) => {
 };
 
 export default function NBackTestScreen({ token, onBack }) {
-  const [gameState, setGameState] = useState('instructions'); // instructions, active, finished
+  const [gameState, setGameState] = useState('instructions'); 
   const [sequence, setSequence] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [showLetter, setShowLetter] = useState(false);
@@ -53,7 +53,7 @@ export default function NBackTestScreen({ token, onBack }) {
         return;
       }
 
-      // Check previous missed target
+      
       if (currentIndex > 0) {
         const prevIndex = currentIndex - 1;
         const wasTarget = prevIndex >= N_BACK && sequence[prevIndex] === sequence[prevIndex - N_BACK];
@@ -62,17 +62,17 @@ export default function NBackTestScreen({ token, onBack }) {
         }
       }
 
-      // Show current letter
+      
       setShowLetter(true);
       stats.current.hasResponded = false;
       stats.current.startTime = Date.now();
 
-      // Hide letter after 1500ms
+      
       hideTimerRef.current = setTimeout(() => {
         setShowLetter(false);
       }, 1500);
 
-      // Next letter after 2000ms
+      
       timerRef.current = setTimeout(() => {
         setCurrentIndex(prev => prev + 1);
       }, 2000);

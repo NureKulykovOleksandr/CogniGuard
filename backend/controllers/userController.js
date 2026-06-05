@@ -1,6 +1,5 @@
 import User from "../models/User.js";
 
-// Отримати список всіх користувачів
 export const getAllUsers = async (req, res) => {
     try {
         const users = await User.find().select("-password_hash");
@@ -10,7 +9,6 @@ export const getAllUsers = async (req, res) => {
     }
 };
 
-// Видалити користувача (Звільнення)
 export const deleteUser = async (req, res) => {
     try {
         await User.findByIdAndDelete(req.params.id);
@@ -20,7 +18,6 @@ export const deleteUser = async (req, res) => {
     }
 };
 
-// Отримати одного користувача за ID
 export const getUserById = async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select("-password_hash");
@@ -31,7 +28,6 @@ export const getUserById = async (req, res) => {
     }
 };
 
-// Оновити дані користувача
 export const updateUser = async (req, res) => {
     try {
         const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });

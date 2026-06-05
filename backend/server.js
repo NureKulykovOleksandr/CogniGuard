@@ -5,7 +5,6 @@ import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
 import dotenv from 'dotenv';
 
-// Імпорт УСІХ контролерів
 import * as AuthController from "./controllers/authController.js";
 import * as UnitController from "./controllers/unitController.js";
 import * as TestController from "./controllers/testController.js";
@@ -19,17 +18,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// !!! ВАЖЛИВО: CORS має бути першим
 app.use(cors());
 app.use(express.json());
 
-// --- SWAGGER SETUP (FIX FOR RENDER) ---
 const swaggerDocument = JSON.parse(fs.readFileSync('./swagger.json', 'utf-8'));
 
-// Додаємо сервери програмно, щоб Swagger точно знав, де він працює
 swaggerDocument.servers = [
     {
-        url: "https://cogniguard-6y7v.onrender.com/api", // Твоє посилання на Render
+        url: "https://cogniguard-6y7v.onrender.com/api", 
         description: "Production Server (Render)"
     },
     {
@@ -38,18 +34,11 @@ swaggerDocument.servers = [
     }
 ];
 
-// Важливо: Переконайтеся, що шляхи до ендпоінтів у swagger.json (наприклад, "/api/auth/login")
-// відповідають фактичним маршрутам, визначеним в Express (наприклад, app.post('/api/auth/login', ...)).
-// Якщо вони не збігаються, Swagger UI буде генерувати 404 помилки.
-// console.log(JSON.stringify(swaggerDocument, null, 2)); // Розкоментуйте для налагодження
-
-// Підключення до БД
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log('✅ Connected to MongoDB Atlas'))
   .catch((err) => console.error('❌ DB connection error:', err));
 
-// Головна сторінка (щоб не було Cannot GET /)
 app.get('/', (req, res) => {
     res.send(`
         <h1>CogniGuard API is running! 🚀</h1>
@@ -57,49 +46,39 @@ app.get('/', (req, res) => {
     `);
 });
 
-// Swagger Route
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-// --- МАРШРУТИ ---
 
 app.post('/api/auth/register', AuthController.register);
 app.post('/api/auth/login', AuthController.login);
 app.get('/api/auth/me', AuthController.getMe);
 
-// Units
 app.post('/api/units', UnitController.createUnit);
 app.get('/api/units', UnitController.getUnits);
 app.patch('/api/units/:id', UnitController.updateUnit);
 app.delete('/api/units/:id', UnitController.deleteUnit);
 app.get('/api/units/:id/members', UnitController.getUnitMembers);
 
-// Tests
 app.post('/api/tests', TestController.saveTestResult);
 app.get('/api/tests/history', TestController.getHistory);
 app.get('/api/tests/stats/:unitId', TestController.getUnitStats);
 app.delete('/api/tests/:id', TestController.deleteTest);
 
-// IoT
 app.post('/api/iot/data', IoTController.saveData);
 app.get('/api/iot/latest/:userId', IoTController.getLatest);
 
-// Reports
 app.post('/api/reports/generate', ReportController.generateReport);
 app.get('/api/reports', ReportController.getReports);
 app.delete('/api/reports/:id', ReportController.deleteReport);
 
-// Admin
 app.post('/api/admin/backup', AdminController.createBackup);
 app.get('/api/admin/export', AdminController.exportData);
 app.post('/api/admin/import', AdminController.importData);
 
-// Users Management (Admin)
 app.get('/api/users', UserController.getAllUsers);
 app.get('/api/users/:id', UserController.getUserById);
 app.patch('/api/users/:id', UserController.updateUser);
 app.delete('/api/users/:id', UserController.deleteUser);
 
-// Запуск
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });

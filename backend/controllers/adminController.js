@@ -4,11 +4,9 @@ import IoTData from "../models/IoTData.js";
 import fs from "fs";
 import path from "path";
 
-
-// Експорт всієї бази даних у JSON
 export const exportData = async (req, res) => {
     try {
-        // Збираємо дані з усіх колекцій
+        
         const users = await User.find();
         const tests = await TestResult.find();
         const iotData = await IoTData.find();
@@ -23,7 +21,7 @@ export const exportData = async (req, res) => {
             }
         };
 
-        // Відправляємо JSON файл клієнту (браузеру)
+        
         res.header("Content-Type", "application/json");
         res.attachment("cogniguard-export.json");
         res.send(JSON.stringify(fullData, null, 2));
@@ -33,28 +31,27 @@ export const exportData = async (req, res) => {
     }
 };
 
-// Створення резервної копії (Backup) на сервері
 export const createBackup = async (req, res) => {
     try {
         const users = await User.find();
         const tests = await TestResult.find();
         
-        // Формуємо об'єкт бекапу
+        
         const backupData = JSON.stringify({ users, tests }, null, 2);
         
-        // Генеруємо ім'я файлу з датою
+        
         const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
         const fileName = `backup-${timestamp}.json`;
         
-        // Шлях до папки backups у корені проекту
+        
         const backupPath = path.join(process.cwd(), 'backups');
 
-        // Якщо папки немає - створюємо її
+        
         if (!fs.existsSync(backupPath)) {
             fs.mkdirSync(backupPath);
         }
 
-        // Записуємо файл
+        
         fs.writeFileSync(path.join(backupPath, fileName), backupData);
 
         res.json({ 
@@ -67,7 +64,6 @@ export const createBackup = async (req, res) => {
     }
 };
 
-// Імпорт бази даних (Restore) з JSON
 export const importData = async (req, res) => {
     try {
         const { users, tests, iotData } = req.body;

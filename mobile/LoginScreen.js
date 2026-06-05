@@ -21,7 +21,7 @@ export default function LoginScreen({ onLoginSuccess }) {
         } catch (e) {
           console.error('Error saving auth data', e);
         }
-        onLoginSuccess(data.token); // Сохраняем токен
+        onLoginSuccess(data.token); 
       } else {
         Alert.alert('Помилка', data.message || 'Невірні дані');
       }
