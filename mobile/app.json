@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "CogniGuard",
+    "slug": "cogniguard-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cogniguard.mobile"
+    },
+    "android": {
+      "package": "com.cogniguard.mobile"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a621d76f-8d93-4dfa-b11e-7494e15990e6"
+      }
+    }
+  }
+}

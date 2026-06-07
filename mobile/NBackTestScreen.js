@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from './config';
 
 const N_BACK = 2;
 const TOTAL_TRIALS = 20;
@@ -116,7 +117,7 @@ export default function NBackTestScreen({ token, onBack }) {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-      const response = await fetch('http://localhost:3000/api/tests', {
+      const response = await fetch(`${API_URL}/api/tests`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

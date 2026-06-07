@@ -6,6 +6,7 @@ import TestScreen from './TestScreen';
 import NBackTestScreen from './NBackTestScreen';
 import HistoryScreen from './HistoryScreen';
 import ProfileScreen from './ProfileScreen';
+import { API_URL } from './config';
 
 export default function App() {
   const [token, setToken] = useState(null);
@@ -50,7 +51,7 @@ export default function App() {
 
           for (const test of offlineTests) {
             try {
-              const response = await fetch('http://localhost:3000/api/tests', {
+              const response = await fetch(`${API_URL}/api/tests`, {
                 method: 'POST',
                 headers: { 
                   'Content-Type': 'application/json',

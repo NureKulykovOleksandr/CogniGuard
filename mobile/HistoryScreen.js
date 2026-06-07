@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { API_URL } from './config';
 
 export default function HistoryScreen({ token, onBack }) {
   const [history, setHistory] = useState([]);
@@ -12,7 +13,7 @@ export default function HistoryScreen({ token, onBack }) {
   const fetchHistory = async () => {
     try {
       
-      const response = await fetch(`http://localhost:3000/api/tests/history?user_id=${token}`);
+      const response = await fetch(`${API_URL}/api/tests/history?user_id=${token}`);
       const data = await response.json();
       setHistory(data);
     } catch (error) {

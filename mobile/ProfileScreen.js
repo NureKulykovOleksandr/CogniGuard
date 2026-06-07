@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from './config';
 
 export default function ProfileScreen({ token, onBack }) {
   const [profile, setProfile] = useState(null);
@@ -15,7 +16,7 @@ export default function ProfileScreen({ token, onBack }) {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-      const response = await fetch(`http://localhost:3000/api/users/${token}`, {
+      const response = await fetch(`${API_URL}/api/users/${token}`, {
         signal: controller.signal
       });
       clearTimeout(timeoutId);
