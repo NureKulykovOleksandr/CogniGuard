@@ -30,7 +30,7 @@ class CogniGuardUser(HttpUser):
             data = response.json()
             self.token = data.get("token")
             user_info = data.get("user", {})
-            self.user_id = user_info.get("login") or user_info.get("id")
+            self.user_id = user_info.get("id")
         else:
             # Fallback if login fails
             self.user_id = "test_soldier"
@@ -52,7 +52,7 @@ class CogniGuardUser(HttpUser):
             
         test_payload = {
             "user_id": self.user_id,
-            "test_type": random.choice(["reaction", "n-back"]),
+            "test_type": random.choice(["PVT", "n-back"]),
             "reaction_time_ms": random.randint(220, 680),
             "errors_count": random.randint(0, 4)
         }
