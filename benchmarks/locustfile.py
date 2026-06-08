@@ -18,9 +18,11 @@ class CogniGuardUser(HttpUser):
     def login_as_soldier(self):
         # We will log in with 'petrenko1' or 'captain' or 'admin'
         login_credentials = [
-            {"login": "petrenko1", "password": "123"},
-            {"login": "petrenko123", "password": "123"},
-            {"login": "test", "password": "123"}
+            {"login": "petrenko1", "password": "password1234567"},
+            {"login": "petrenko123", "password": "password12345"},
+            {"login": "test", "password": "test"},
+            {"login": "petrenko", "password": "password123"},
+            {"login": "captain", "password": "123"}
         ]
         creds = random.choice(login_credentials)
         response = self.client.post("/api/auth/login", json=creds)
